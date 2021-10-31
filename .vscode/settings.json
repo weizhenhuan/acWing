@@ -97,6 +97,6 @@
     ],
     "python.linting.pylintEnabled": false,
     "jupyter.jupyterServerType": "local",
-    "editor.tabSize": ,
+    "editor.tabSize": 4,
     "terminal.integrated.fontSize": 22,
 }
