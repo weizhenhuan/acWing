@@ -1,45 +1,45 @@
+// 单调栈
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
 
-const int N = 10e5+5;
-int h[N];
+const int N = 100005;
+int a[N];
+int s[N];
+int w[N];
+ll ans = -1;
 
 int main() {
-    std::ios::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
+  std::ios::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
 
-    int n;
-    while(cin >> n && n) {
-        memset(h, 0, sizeof(h));
-        stack<int> width;
-        stack<int> s;
-        s.push(0);
-        ll ans = 0;
-        for(int i = 1; i <= n; i++) {
-            cin >> h[i];
+  int n;
+  cin >> n;
+  while(n != 0) {
+    for(int i = 1; i <= n; i++)
+      cin >> a[i];
+
+    ans = 0;
+    a[n+1] = 0;
+    int p = 0;
+    for (int i = 1; i <= n+1; i++) {
+      if (a[i] > s[p]) {
+        s[++p] = a[i];
+        w[p] = 1;
+      }
+      else {
+        int width = 0;
+        while(a[i] < s[p]) {
+          width += w[p];
+          ans = max(ans, (ll)width*s[p]);
+          p--; 
         }
-        for(int i = 1; i <= n + 1; i++) {
-            if(h[i] > s.top()) {
-                s.push(h[i]);
-                width.push(1);
-            }
-            else {
-                int j = i - 1;
-                int w = 1;
-                while(!s.empty() && s.top() >= h[i]) {
-                    int height = s.top();
-                    s.pop();
-                    w += width.top();
-                    width.pop();
-                    ans = max(ans, (ll)height * w);
-                    j--;
-                }
-                s.push(h[i]);
-                width.push(w);
-            }
-        } 
-        cout << ans << endl;
+        w[++p] = width + 1;
+        s[p] = a[i];
+      }
     }
+    cout << ans << endl;
+    cin >> n;
+  }
 }
